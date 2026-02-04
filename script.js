@@ -46,27 +46,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Add hover effect to feature cards
-    const featureCards = document.querySelectorAll('.feature-card');
-    featureCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transition = 'all 0.3s ease';
-        });
+    // Add parallax effect to circles with throttling
+    const circles = document.querySelectorAll('.circle');
+    let ticking = false;
+
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                const scrolled = window.pageYOffset;
+                
+                circles.forEach((circle, index) => {
+                    const speed = (index + 1) * 0.1;
+                    circle.style.transform = `translateY(${scrolled * speed}px)`;
+                });
+                
+                ticking = false;
+            });
+            
+            ticking = true;
+        }
     });
 
     // Log page load
     console.log('YQ Landing Page loaded successfully');
-});
-
-// Add parallax effect to circles
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const circles = document.querySelectorAll('.circle');
-    
-    circles.forEach((circle, index) => {
-        const speed = (index + 1) * 0.1;
-        circle.style.transform = `translateY(${scrolled * speed}px)`;
-    });
 });
 
 // Prevent right-click context menu (optional, for protection)
